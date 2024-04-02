@@ -19,6 +19,7 @@ class TMO:
         Report ITU-R BT.2407-0 (October 2017)
         "Colour gamut conversion from Recommendation ITU-R BT.2020 to Recommendation ITU-R BT.709".
     '''
+    params = ['video_mode']
     def __init__(
         self,
         out_standard: Optional[Standard] = standards.sRGB,
@@ -39,13 +40,6 @@ class TMO:
             raise ValueError(f'Invalid video mode {video_mode}')
         self.video_mode: str = video_mode
         self.out_format: str = out_format
-
-    @property
-    def params(self) -> List[str]:
-        '''
-        Return a list of parameter names that define the TMO.
-        '''
-        raise ['video_mode']
 
     @property
     def params_dict(self) -> Dict[str, Any]:
