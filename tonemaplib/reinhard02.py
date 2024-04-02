@@ -33,6 +33,7 @@ class Reinhard02TMO(TMO):
         https://github.com/LuminanceHDR/LuminanceHDR/tree/master/src/TonemappingOperators/reinhard02
         https://github.com/banterle/HDR_Toolbox/blob/master/source_code/Tmo/ReinhardTMO.m
     '''
+    params = ['video_mode', 'key', 'mode', 'desat']
     def __init__(
         self,
         out_standard: Optional[Standard] = standards.sRGB,
@@ -64,13 +65,6 @@ class Reinhard02TMO(TMO):
         self._eps: float = 0.05
         self._2_phi: float = float(1 << 8)
         self._sigs = np.power(1.6, np.arange(self.scales)) * 0.25
-
-    @property
-    def params(self) -> List[str]:
-        '''
-        Return a list of parameter names that define the TMO.
-        '''
-        return ['video_mode', 'key', 'mode', 'desat']
 
     @staticmethod
     def _get_robust_minmax(data: np.ndarray) -> Tuple[float, float]:

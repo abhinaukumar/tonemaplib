@@ -23,6 +23,7 @@ class Reinhard12TMO(TMO):
         "Calibrated image appearance reproduction."
         ACM Trans. Graph. 31, 6, Article 201
     '''
+    params = ['video_mode', 'viewing_cond']
     def __init__(
         self,
         out_standard: Optional[Standard] = standards.sRGB,
@@ -103,13 +104,6 @@ class Reinhard12TMO(TMO):
         self._interp_factor = 0.08
         self._max_mapped_inv = None
         self._saturation_terms = None
-
-    @property
-    def params(self) -> List[str]:
-        '''
-        Return a list of parameter names that define the TMO.
-        '''
-        return ['video_mode', 'viewing_cond']
 
     def _leaky_integrate_params(self, max_mapped_inv: np.ndarray, saturation_terms: np.ndarray) -> None:
         '''

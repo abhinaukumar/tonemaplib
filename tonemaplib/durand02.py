@@ -25,6 +25,7 @@ class Durand02TMO(TMO):
         influence_function (str): Name of the influence function to use.
         desat (float): Desaturation parameter for color correction.
     '''
+    params = ['video_mode', 'num_segments', 'base_contrast', 'downsampling_factor', 'influence_function', 'desat']
     def __init__(
         self,
         out_standard: Optional[Standard] = standards.sRGB,
@@ -60,13 +61,6 @@ class Durand02TMO(TMO):
         self.desat: float = desat
         self._influence_scale: float = 0.4
         self._spatial_scale_factor: float = 0.02
-
-    @property
-    def params(self) -> List[str]:
-        '''
-        Return a list of parameter names that define the TMO.
-        '''
-        return ['video_mode', 'num_segments', 'base_contrast', 'downsampling_factor', 'influence_function', 'desat']
 
     def _eval_influence_function(self, x: np.ndarray) -> np.ndarray:
         '''

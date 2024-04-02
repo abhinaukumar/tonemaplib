@@ -36,6 +36,7 @@ class Rana19TMO(TMO):
 
         https://v-sense.scss.tcd.ie/code-deeptmo/
     '''
+    params = ['video_mode', 'desat']
     def __init__(
         self,
         out_standard: Optional[Standard] = standards.sRGB,
@@ -82,13 +83,6 @@ class Rana19TMO(TMO):
         self._zero_tensor = torch.Tensor([0])
         if self.use_cuda:
             self._zero_tensor = self._zero_tensor.cuda(self.device)
-
-    @property
-    def params(self) -> List[str]:
-        '''
-        Return a list of parameter names that define the TMO.
-        '''
-        return ['video_mode', 'desat']
 
     @property
     def _deeptmo_opt(self) -> Namespace:

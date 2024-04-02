@@ -30,6 +30,7 @@ class Eilertsen15TMO(TMO):
         "Real-time noise-aware tone mapping."
         ACM Trans. Graph. 34, 6, Article 198
     '''
+    params = ['video_mode', 'bin_width', 'noise_a', 'noise_b', 'desat']
     def __init__(
         self,
         out_standard: Optional[Standard] = standards.sRGB,
@@ -100,13 +101,6 @@ class Eilertsen15TMO(TMO):
         self._ct_p2: float = 4.3806 * 1e-4
         self._ct_p3: float = 1.5154
         self._ct_p4: float = 0.29412
-
-    @property
-    def params(self) -> List[str]:
-        '''
-        Return a list of parameter names that define the TMO.
-        '''
-        return ['video_mode', 'bin_width', 'noise_a', 'noise_b', 'desat']
 
     def _noise_magnitude(self, intensity: Union[float, np.ndarray]) -> Union[float, np.ndarray]:
         '''

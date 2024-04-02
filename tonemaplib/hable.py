@@ -19,6 +19,7 @@ class HableTMO(TMO):
         out_format (str): Format to which output video must be written.
         desat (float): Desaturation parameter for color correction.
     '''
+    params = ['video_mode', 'desat']
     def __init__(
         self,
         out_standard: Optional[Standard] = standards.sRGB,
@@ -37,13 +38,6 @@ class HableTMO(TMO):
         '''
         super().__init__(out_standard=out_standard, video_mode=video_mode, out_format=out_format)
         self.desat = desat
-
-    @property
-    def params(self) -> List[str]:
-        '''
-        Return a list of parameter names that define the TMO.
-        '''
-        return ['video_mode', 'desat']
 
     @staticmethod
     def _hable_function(x: Union[float, np.ndarray]) -> Union[float, np.ndarray]:

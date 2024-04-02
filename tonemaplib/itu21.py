@@ -23,6 +23,7 @@ class ITU21TMO(TMO):
         Report ITU-R BT.2446-1 (March 2021)
         "Methods for conversion of high dynamic range content to standard dynamic range content and vice-versa".
     '''
+    params = ['video_mode', 'peak_hdr']
     def __init__(
         self,
         out_standard: Optional[Standard] = standards.sRGB,
@@ -44,13 +45,6 @@ class ITU21TMO(TMO):
         peak_sdr = 1e2
         self._coeff_hdr = ITU21TMO._coeff_function(self.peak_hdr)
         self._coeff_sdr = ITU21TMO._coeff_function(peak_sdr)
-
-    @property
-    def params(self) -> List[str]:
-        '''
-        Return a list of parameter names that define the TMO.
-        '''
-        return ['video_mode', 'peak_hdr']
 
     @staticmethod
     def _coeff_function(lum: Union[float, np.ndarray]) -> Union[float, np.ndarray]:

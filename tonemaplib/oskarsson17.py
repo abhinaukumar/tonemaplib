@@ -28,6 +28,7 @@ class Oskarsson17TMO(TMO):
 
         https://github.com/hamburgerlady/democratic-tonemap
     '''
+    params = ['video_mode', 'num_clusters', 'hist_context', 'channelwise_model_weight']
     def __init__(
         self,
         out_standard: Optional[Standard] = standards.sRGB,
@@ -57,13 +58,6 @@ class Oskarsson17TMO(TMO):
         self._bin_centers: np.ndarray = (self._bins[:-1] + self._bins[1:])/2
         self._interp_length: int = 20
         self._prev_hist: np.ndarray = None
-
-    @property
-    def params(self) -> List[str]:
-        '''
-        Return a list of parameter names that define the TMO.
-        '''
-        return ['video_mode', 'num_clusters', 'hist_context', 'channelwise_model_weight']
 
     def _get_buf_hist(self, buf: CircularBuffer, normalize: Optional[bool] = True) -> np.ndarray:
         '''

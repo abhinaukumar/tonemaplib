@@ -24,6 +24,7 @@ class Shan12TMO(TMO):
         levels (int): Number of wavelet levels to use.
         temp_dir (str): Directory where temporary files will be written.
     '''
+    params = ['video_mode', 'wavelet', 'levels']
     def __init__(
         self,
         out_standard: Optional[Standard] = standards.sRGB,
@@ -73,13 +74,6 @@ class Shan12TMO(TMO):
 
         self._level_mults: np.ndarray = np.array([1.0, 0.8] + [0.6]*max(self.levels-2, 0))
         self._subband_names = ['approx_lo', 'approx_hi', 'hor_lo', 'hor_hi', 'ver_lo', 'ver_hi', 'diag_lo', 'diag_hi']
-
-    @property
-    def params(self) -> List[str]:
-        '''
-        Return a list of parameter names that define the TMO.
-        '''
-        return ['video_mode', 'wavelet', 'levels']
 
     @property
     def params_dict(self) -> Dict[str, Any]:

@@ -36,6 +36,7 @@ class Yang21TMO(TMO):
 
         https://github.com/linmc86/Deep-Reformulated-Laplacian-Tone-Mapping
     '''
+    params = ['video_mode', 'desat']
     def __init__(
         self,
         out_standard: Optional[Standard] = standards.sRGB,
@@ -58,13 +59,6 @@ class Yang21TMO(TMO):
         self.pad_width = 10
         self.levels = 4  # Number of Laplacian Pyramid levels
         self.checkpoint_path = os.path.join(os.path.dirname(__file__), 'laplacianet', 'checkpoint', 'demo')  # models are saved here
-
-    @property
-    def params(self) -> List[str]:
-        '''
-        Return a list of parameter names that define the TMO.
-        '''
-        return ['video_mode', 'desat']
 
     def _init_network(self) -> None:
         '''

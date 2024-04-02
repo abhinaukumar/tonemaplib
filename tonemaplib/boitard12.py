@@ -24,6 +24,7 @@ class Boitard12TMO(TMO):
         "Temporal coherency for video tone mapping."
         Proc. SPIE 8499, Applications of Digital Image Processing XXXV, 84990D
     '''
+    params = ['video_mode', 'base_tmo', 'scale_method']
     def __init__(
         self,
         out_standard: Optional[standards.Standard] = standards.sRGB,
@@ -54,13 +55,6 @@ class Boitard12TMO(TMO):
             raise ValueError('Invalid video mode. Must be \'smooth\'')
         super().__init__(out_standard=out_standard, video_mode=video_mode, out_format=out_format)
         self.scale_method: str = scale_method
-
-    @property
-    def params(self) -> List[str]:
-        '''
-        Return a list of parameter names that define the TMO.
-        '''
-        return ['video_mode', 'base_tmo', 'scale_method']
 
     def _first_pass(self, video: Video, temp_video: Video, **kwargs) -> Tuple[List[float], ...]:
         '''
