@@ -1,6 +1,7 @@
 from typing import Optional, List, Tuple
 from argparse import Namespace
 import os
+import gdown
 
 import torch
 from torchvision import transforms
@@ -68,6 +69,9 @@ class Rana19TMO(TMO):
         self.batch_size = batch_size
         self.desat = desat
 
+        if not os.path.isfile(os.path.join('deeptmo/OfficialRelease/1000_net_G.pth')):
+            self._download_checkpoint()
+
         self._deeptmo_model = create_model(self._deeptmo_opt)
         if use_cuda:
             self._deeptmo_model = self._deeptmo_model.cuda(self.device)
@@ -99,7 +103,7 @@ class Rana19TMO(TMO):
         # experiment specifics
         opt.name = 'OfficialRelease'  # name of the experiment. It decides where to store samples and models
         opt.gpu_ids = ['cuda:{}'.format(self.device)] if self.use_cuda else []  # CUDA device to use
-        opt.checkpoints_dir = os.environ.get('RANA19_FILES_DIR', '')
+        opt.checkpoints_dir = os.path.join(os.path.dirname(__file__), 'deeptmo')
         opt.model = 'pix2pixHD'
         opt.which_epoch = '1000'
         opt.norm = 'instance'  # instance normalization or batch normalization
@@ -128,6 +132,9 @@ class Rana19TMO(TMO):
         opt.verbose = False
 
         return opt
+
+    def _download_checkpoint(self):
+        gdown.download_folder(id='1jG9g2032q_Cbps4HtFCauqoJRhegkC6g', output=os.path.join(os.path.dirname(__file__), 'deeptmo', 'OfficialRelease'))
 
     @staticmethod
     def _pad_to_multiple_of_32(img: np.ndarray) -> np.ndarray:

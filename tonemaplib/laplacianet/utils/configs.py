@@ -4,7 +4,7 @@ from easydict import EasyDict as edict
 
 config = edict()
 
-base_dir = os.environ.get('YANG21_FILES_DIR', '')
+base_dir = 'laplacianet'
 
 config.model = edict()
 config.model.ckp_path_high = os.path.join(base_dir, 'checkpoint/highlayer/')

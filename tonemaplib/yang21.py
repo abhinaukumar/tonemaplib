@@ -4,6 +4,7 @@ from typing import List, Optional, Tuple
 import numpy as np
 # import tensorflow as tf
 import tensorflow.compat.v1 as tf
+import gdown
 
 from .laplacianet.utils.utilities import cut_dark_end_percent, norm_0_to_1
 from .laplacianet.utils.utils_lap_pyramid import lpyr_gen, lpyr_enlarge_to_top_but_bottom, cond, body
@@ -56,7 +57,7 @@ class Yang21TMO(TMO):
         self.desat = desat
         self.pad_width = 10
         self.levels = 4  # Number of Laplacian Pyramid levels
-        self.checkpoint_path = os.path.join(os.environ.get('YANG21_FILES_DIR', ''), 'checkpoint', 'demo')  # models are saved here
+        self.checkpoint_path = os.path.join(os.path.dirname(__file__), 'laplacianet', 'checkpoint', 'demo')  # models are saved here
 
     @property
     def params(self) -> List[str]:
@@ -81,14 +82,21 @@ class Yang21TMO(TMO):
             if not (v.name.startswith('vgg_16')):
                 variables_to_restore.append(v)
 
-        # print(self.checkpoint_path)
+        # print(self.checkpoint_p
         saver = tf.train.Saver(variables_to_restore, write_version=tf.train.SaverDef.V2)
         ckpt = tf.train.get_checkpoint_state(self.checkpoint_path)
+        if ckpt is None:
+            # Download and retry
+            self._download_checkpoint()
+            ckpt = tf.train.get_checkpoint_state(self.checkpoint_path)
         if ckpt and ckpt.model_checkpoint_path:
             full_path = tf.train.latest_checkpoint(self.checkpoint_path)
             saver.restore(self.sess, full_path)
         else:
             raise RuntimeError('Did not load checkpoint.')
+
+    def _download_checkpoint(self):
+        gdown.download_folder(id='1e-je3LyiuW-k8BvoVj6UOuDVQQFrL3G8', output=os.path.join(os.path.dirname(__file__), 'laplacianet', 'checkpoint'))
 
     def _dualize(self, py_layers: List[np.ndarray]) -> Tuple[np.ndarray, np.ndarray]:
         '''
