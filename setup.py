@@ -11,7 +11,7 @@ setup(
         'PyWavelets',
         'scikit-image',
         'protobuf',
-        'tensorflow-gpu',
+        'tensorflow',
         'torch',
         'torchvision',
         'joblib',
